@@ -1,6 +1,5 @@
 package com.example.sweater.domain;
 
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,6 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
+import javax.persistence.Entity;
 
 @Entity
 @Table(name = "usr")
@@ -21,6 +21,7 @@ public class User implements UserDetails {
     @NotBlank(message = "Password cannot be empty")
     private String password;
     @Transient
+    @NotBlank(message = "Password confirmation cannot be empty")
     private String password2;
     private boolean active;
 

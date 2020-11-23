@@ -5,7 +5,6 @@ import com.example.sweater.domain.User;
 import com.example.sweater.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +16,12 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private UserService userService;
+    private UserService userSevice;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public String userList(Model model) {
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("users", userSevice.findAll());
 
         return "userList";
     }
@@ -32,6 +31,7 @@ public class UserController {
     public String userEditForm(@PathVariable User user, Model model) {
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
+
         return "userEdit";
     }
 
@@ -42,8 +42,7 @@ public class UserController {
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user
     ) {
-        userService.saveUser(user, username, form);
-
+        userSevice.saveUser(user, username, form);
 
         return "redirect:/user";
     }
@@ -57,14 +56,13 @@ public class UserController {
     }
 
     @PostMapping("profile")
-    public String updateProfile(@AuthenticationPrincipal User user,
-                                @RequestParam String password,
-                                @RequestParam String email
+    public String updateProfile(
+            @AuthenticationPrincipal User user,
+            @RequestParam String password,
+            @RequestParam String email
     ) {
-        userService.updateProfile(user, password, email);
+        userSevice.updateProfile(user, password, email);
+
         return "redirect:/user/profile";
-
     }
-
-
 }

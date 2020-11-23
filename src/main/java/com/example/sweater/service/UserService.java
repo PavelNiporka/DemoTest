@@ -15,7 +15,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService{
+
     @Autowired
     private UserRepo userRepo;
 
@@ -25,24 +26,31 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username);
+        User user = userRepo.findByUsername(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        return user;
     }
 
     public boolean addUser(User user) {
         User userFromDb = userRepo.findByUsername(user.getUsername());
+
         if (userFromDb != null) {
             return false;
         }
+
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-
         userRepo.save(user);
+
         sendMessage(user);
 
         return true;
@@ -52,12 +60,12 @@ public class UserService implements UserDetailsService {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hello, %s! \n" +
-                            "Welcome to Pavel project.Please,visit next link: http://localhost:8080/activate/%s",
+                            "Welcome to Sweater. Please, visit next link: http://localhost:8080/activate/%s",
                     user.getUsername(),
                     user.getActivationCode()
             );
-            smtpMailSender.send(user.getEmail(), "Activation code", message);
 
+            smtpMailSender.send(user.getEmail(), "Activation code", message);
         }
     }
 
@@ -67,6 +75,7 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             return false;
         }
+
         user.setActivationCode(null);
 
         userRepo.save(user);
@@ -94,7 +103,6 @@ public class UserService implements UserDetailsService {
         }
 
         userRepo.save(user);
-
     }
 
     public void updateProfile(User user, String password, String email) {
@@ -108,9 +116,9 @@ public class UserService implements UserDetailsService {
 
             if (!StringUtils.isEmpty(email)) {
                 user.setActivationCode(UUID.randomUUID().toString());
-
             }
         }
+
         if (!StringUtils.isEmpty(password)) {
             user.setPassword(password);
         }
@@ -121,4 +129,5 @@ public class UserService implements UserDetailsService {
             sendMessage(user);
         }
     }
+
 }
