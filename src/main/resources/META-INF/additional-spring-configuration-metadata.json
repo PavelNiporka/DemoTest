@@ -4,5 +4,10 @@
       "name": "upload.path",
       "type": "java.lang.String",
       "description": "Description for upload.path."
-  }
-] }
+    },
+    {
+      "name": "app.datasource.username",
+      "type": "java.lang.String",
+      "description": "Description for app.datasource.username."
+    }
+  ] }
