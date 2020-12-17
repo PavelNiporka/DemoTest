@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 public class RegistrationController {
@@ -64,7 +66,7 @@ public class RegistrationController {
             model.addAttribute("passwordError", "Passwords are different!");
         }
 
-        if (isConfirmEmpty || bindingResult.hasErrors() || response.isSuccess() || model.containsAttribute("passwordError")) {
+        if (isConfirmEmpty || bindingResult.hasErrors() || Objects.requireNonNull(response).isSuccess() || model.containsAttribute("passwordError")) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errors);
@@ -94,4 +96,5 @@ public class RegistrationController {
 
         return "login";
     }
+
 }

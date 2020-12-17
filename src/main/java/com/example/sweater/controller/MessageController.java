@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +38,7 @@ public class MessageController {
 
     @GetMapping("/main")
     public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Message> messages = messageRepo.findAll();
+        Iterable<Message> messages;
 
         if (filter != null && !filter.isEmpty()) {
             messages = messageRepo.findByTag(filter);
@@ -81,10 +80,9 @@ public class MessageController {
         model.addAttribute("messages", messages);
 
         return "main";
-
     }
 
-    private void saveFile(Message message, MultipartFile file) throws IOException {
+    private void saveFile(@Valid Message message, @RequestParam("file") MultipartFile file) throws IOException {
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);
 
@@ -110,9 +108,10 @@ public class MessageController {
     ) {
         Set<Message> messages = user.getMessages();
 
-        model.addAttribute("message", message);
         model.addAttribute("messages", messages);
+        model.addAttribute("message", message);
         model.addAttribute("isCurrentUser", currentUser.equals(user));
+
         return "userMessages";
     }
 
@@ -124,7 +123,6 @@ public class MessageController {
             @RequestParam("text") String text,
             @RequestParam("tag") String tag,
             @RequestParam("file") MultipartFile file
-
     ) throws IOException {
         if (message.getAuthor().equals(currentUser)) {
             if (!StringUtils.isEmpty(text)) {
@@ -134,11 +132,12 @@ public class MessageController {
             if (!StringUtils.isEmpty(tag)) {
                 message.setTag(tag);
             }
+
             saveFile(message, file);
+
             messageRepo.save(message);
         }
 
         return "redirect:/user-messages/" + user;
     }
-
 }

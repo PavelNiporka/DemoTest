@@ -10,12 +10,15 @@
                 <span>${message.text}</span><br/>
                 <i>#${message.tag}</i>
             </div>
-            <div class = "card-footer text-muted">
-                <a href = "/user-messages/${message.author.id}"> ${message.authorName}</a>
+            <div class="card-footer text-muted">
+                <a href="/user-messages/${message.author.id}"> ${message.authorName}</a>
                 <#if message.author.id == currentUserId>
-                <a class="btn btn-primary" href="/user-messages/${message.author.id}?message=${message.id}">
-                    Edit
-                </a>
+                    <a class="btn btn-primary" href="/user-messages/${message.author.id}?message=${message.id}">
+                        Edit
+                    </a>
+                    <a class="btn btn-warning" href="/del-user-messages/${message.author.id}?message=${message.id}">
+                        Delete
+                    </a>
                 </#if>
             </div>
         </div>
