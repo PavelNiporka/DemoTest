@@ -3,10 +3,10 @@ D:\sweater\src\main\java\com\example\sweater\Application.java
 D:\sweater\src\main\java\com\example\sweater\domain\User.java
 D:\sweater\src\main\java\com\example\sweater\repos\MessageRepo.java
 D:\sweater\src\main\java\com\example\sweater\config\MailConfig.java
+D:\sweater\src\main\java\com\example\sweater\controller\MessageController.java
 D:\sweater\src\main\java\com\example\sweater\service\UserService.java
 D:\sweater\src\main\java\com\example\sweater\controller\ControllerUtils.java
 D:\sweater\src\main\java\com\example\sweater\domain\Role.java
-D:\sweater\src\main\java\com\example\sweater\controller\MainController.java
 D:\sweater\src\main\java\com\example\sweater\service\SmtpMailSender.java
 D:\sweater\src\main\java\com\example\sweater\config\MvcConfig.java
 D:\sweater\src\main\java\com\example\sweater\config\WebSecurityConfig.java
