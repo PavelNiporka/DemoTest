@@ -9,5 +9,10 @@
       "name": "app.datasource.username",
       "type": "java.lang.String",
       "description": "Description for app.datasource.username."
+    },
+    {
+      "name": "mail.debug",
+      "type": "java.lang.String",
+      "description": "Description for mail.debug."
     }
   ] }

@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class SmtpMailSender {
     @Autowired
-    private JavaMailSender mailSender;
+    private JavaMailSender SmtpMailSender;
 
     @Value("${spring.mail.username}")
     private String username;
+
 
     public void send(String emailTo, String subject, String message) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -23,9 +24,6 @@ public class SmtpMailSender {
         mailMessage.setSubject(subject);
         mailMessage.setText(message);
 
-        mailSender.send(mailMessage);
-
+        SmtpMailSender.send(mailMessage);
     }
-
-
 }
